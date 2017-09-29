@@ -6,7 +6,7 @@ defmodule Edos.Worker do
       # without "_ ->", the unmatched msg would stay
       # in the erlang VM mailbox forever...
     end
-    IO.puts "msg #{num} recevied but unmtached"
+    #IO.puts "msg #{num} recevied but unmtached"
     loop(num+1)
   end
 end

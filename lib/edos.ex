@@ -20,6 +20,8 @@ defmodule Edos do
     msg = "daveti: should be a very very very long msg..."
     send(wpid, msg)
     IO.puts "msg #{num} sent"
+    #IO.puts "worker number of msg in the mailbox #{inspect Process.info(wpid, :messages)}"
+    IO.puts "worker msg queue len #{inspect Process.info(wpid, :message_queue_len)}"
     attack(wpid, num+1)
   end
 end
