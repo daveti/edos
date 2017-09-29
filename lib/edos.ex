@@ -1,19 +1,25 @@
 defmodule Edos do
-  def attack() do
-    worker_pid = spawn(Edos.Worker, :loop, 0)
+  def main(_args) do
+    worker_pid = spawn(Edos.Worker, :loop, [0])
 
     # Test the worker
-    {:ok, resp} = send(worker_pid, {:msg, "hello"})
-    IO.puts "Worker responed with #{resp}"
+    send(worker_pid, {self(), {:msg, "hello"}})
+    receive do
+      {:ok, resp} ->
+	IO.puts "Worker responed with #{resp}"
+      _ ->
+	IO.puts "Worker The Fuck..."
+    end
 
     # Start flooding
     IO.puts "Start flooding..."
-    flood(worker_pid)
+    attack(worker_pid, 1)
   end
 
-  defp flood(wpid) do
+  defp attack(wpid, num) do
     msg = "daveti: should be a very very very long msg..."
     send(wpid, msg)
-    flood(wpid)
+    IO.puts "msg #{num} sent"
+    attack(wpid, num+1)
   end
 end
